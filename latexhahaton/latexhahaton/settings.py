@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-(wo^po8eorg5$^k2sjxw(enxz52ii!r#sb0x&!=bz^mbj&p&5!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'formulas',
-
     'rest_framework'
 ]
 
@@ -74,14 +73,13 @@ WSGI_APPLICATION = 'latexhahaton.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'latexhahaton_db',
-        'USER': 'latexhahaton',
-        'PASSWORD': '1234',
-        'HOST': 'localhost',
+        'NAME': 'db',
+        'USER': 'user',
+        'PASSWORD': 'admin',
+        'HOST': 'db',
         'PORT': 5432,
     }
 }

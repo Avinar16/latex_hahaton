@@ -1,0 +1,64 @@
+services:
+  db:
+    image: postgres:13.3
+    restart: always
+    hostname: db
+    environment:
+      POSTGRES_DB: "db"
+      POSTGRES_USER: "user"
+      POSTGRES_PASSWORD: "admin"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - nett
+  frontend:
+    hostname: frontend
+    build:
+      context: ./latex/
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - nett
+    volumes:
+      - ./latex:/app/frontend
+      - /app/frontend/node_modules 
+  backend:
+    hostname: backend
+    build:
+      context: ./latexhahaton/
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./latexhahaton:/app/backend
+    networks:
+      - nett
+    depends_on:
+      db:
+        condition: service_healthy
+  webserver:
+    hostname: webserver
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    networks:
+      - nett
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+      - frontend
+
+
+networks:
+  nett:
+    driver: bridge

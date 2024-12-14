@@ -14,8 +14,7 @@
     "mathquill": "^0.10.1-a",
     "next": "15.0.4",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-katex": "^3.0.1"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "eslint": "^8",
