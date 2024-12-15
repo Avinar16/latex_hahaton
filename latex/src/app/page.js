@@ -29,7 +29,7 @@ export default function Home() {
     <div className = "min-h-screen flex-row grid pb-4">
     <div className=" flex flex-col">
   
-  <div className="flex flex-1  font-[family-name:var(--font-geist-mono)]">
+  <div className="flex flex-1 ">
     {/* сайд */}
     <FormulaToolBox onInsertElement={insertElementToEditor} />
       
@@ -37,7 +37,7 @@ export default function Home() {
    
     <main className="flex-1 p-4 grid grid-cols-2 gap-4">
       {/* Редактор Формул */}
-      <section className="p-4 rounded font-[family-name:var(--font-geist-mono)]">
+      <section className="p-4 rounded ">
         
         <FormulaEditor 
         onFormulaChange={handleFormulaChange} 
@@ -47,10 +47,10 @@ export default function Home() {
       </section>
       
       {/* Анализ Формул */}
-      <section className=" p-4 font-[family-name:var(--font-geist-mono)] col-span-1">
+      <section className=" p-4  col-span-1">
         Анализ Формул
         
-        <FormulaRenderer latex={latex} />
+        <FormulaRenderer className = "" latex={latex} />
           
       </section>
     </main>
