@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
 import { MathJax, MathJaxContext } from "better-react-mathjax";
 
-export default function formulaRenderer({ latex }) {
+export default function FormulaRenderer({ latex }) {
   const [backendFormula, setBackendFormula] = useState("");
   const [coincidence, setCoincidence] = useState("");
 
