@@ -1,3 +1,5 @@
+import sys
+
 from .models import Formula
 
 from fuzzywuzzy import process, fuzz
@@ -12,7 +14,7 @@ def get_matching_indexes(str1, str2):
 def find_coincidence(formula):
     db_formulas = Formula.objects.values_list('formula', flat=True)
     best_match = process.extractOne(formula, db_formulas, scorer=fuzz.partial_ratio)
-
+    print(best_match, file=sys.stderr)
     match = get_matching_indexes(best_match[0], formula)
 
     if match.size == 0:

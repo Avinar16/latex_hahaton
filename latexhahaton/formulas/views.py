@@ -9,9 +9,10 @@ from .serializers import FormulaSerializer
 from .utils import find_coincidence
 from .forms import FileUploadForm
 
-import os
+import os, sys
 from .parser_word import convert_docx_to_tex, extract_math_from_tex
 import uuid
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -21,10 +22,11 @@ class HomePage(TemplateView):
 
 
 class FormulaAnalysisView(APIView):
+    @csrf_exempt
     def post(self, request):
         serializer = FormulaSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-
+        print(request.data, file=sys.stderr)
         match = find_coincidence(serializer.data['formula'])
 
         return Response(match)
