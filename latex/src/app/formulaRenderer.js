@@ -31,7 +31,7 @@ export default function formulaRenderer({latex}) {
         <MathJax className = "border rounded min-h-[400]">{`\\[ ${latex} \\]`}</MathJax>
         </div>
         <div>
-        <button className = "" onClick={handleSubmit}>Сохранить формулу</button>
+        <button className = "" onClick={handleSubmit}>Анализировать формулу</button>
         </div>
         </MathJaxContext>
 
