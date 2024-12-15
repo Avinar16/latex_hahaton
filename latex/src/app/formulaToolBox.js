@@ -2,16 +2,23 @@ import {useState, useEffect, useRef} from 'react';
 import { MathJax, MathJaxContext } from 'better-react-mathjax';
 
 export default function FormulaToolBox({ onInsertElement }) {
-    
     const [customElements, setCustomElements] = useState([]);
+    const [newElementLabel, setNewElementLabel] = useState("");
+    const [ElementCode, setElementCode] = useState("");
 
-    const AddCustomElement = (newElement) => {
-        setCustomElements([...customElements, newElement]);
+    const AddCustomElement = () => {
+        if (newElementLabel.trim() && ElementCode.trim()) {
+            const newElement = { label: newElementLabel, code: ElementCode };
+            setCustomElements([...customElements, newElement]);
+            setNewElementLabel('');
+            setElementCode('');
+        }
     };
 
     const categories = [
         {
-            label: "\\text{Математические знаки}",
+            
+            label: "{Математические знаки}",
             elements: [
                 { label: "\\int_{}^{}", code: "\\int_{}^{}" },
                 { label: "x^{n}", code: "^{}" },
@@ -48,7 +55,7 @@ export default function FormulaToolBox({ onInsertElement }) {
             ],
         },
         {
-            label: "\\text{Математическая логика}",
+            label: "{Математическая логика}",
             elements: [
                 { label: "\\wedge", code: "\\wedge " },
                 { label: "\\vee", code: "\\vee " },
@@ -64,7 +71,7 @@ export default function FormulaToolBox({ onInsertElement }) {
             ],
         },
         {
-            label: "\\text{Знаки сравнения}",
+            label: "{Знаки сравнения}",
             elements: [
                 { label: "\\lt", code: "\\lt " },
                 { label: "\\gt", code: "\\gt " },
@@ -88,7 +95,7 @@ export default function FormulaToolBox({ onInsertElement }) {
             ],
         },
         {
-            label: "\\text{Разное}",
+            label: "{Разное}",
             elements: [
                 { label: "\\#", code: "\\# " },
                 { label: "\\equiv", code: "\\equiv " },
@@ -130,7 +137,7 @@ export default function FormulaToolBox({ onInsertElement }) {
             ],
         },
         {
-            label: "\\text{Стрелки}",
+            label: "{Стрелки}",
             elements: [
                 { label: "\\gets", code: "\\gets " },
                 { label: "\\to", code: "\\to " },
@@ -143,7 +150,7 @@ export default function FormulaToolBox({ onInsertElement }) {
             ],
         },
         {
-            label: "\\text{Скобки}",
+            label: "{Скобки}",
             elements: [
                 { label: "\\left( \\right)", code: "\\left( \\right)" },
                 { label: "\\left\\lfloor \\right\\rfloor", code: "\\left\\lfloor \\right\\rfloor" },
@@ -156,7 +163,7 @@ export default function FormulaToolBox({ onInsertElement }) {
             ],
         },
         {
-            label: "\\text{Прописные греческие буквы}",
+            label: "{Прописные греческие буквы}",
             elements: [
                 { label: "\\Gamma", code: "\\Gamma " },
                 { label: "\\Delta", code: "\\Delta " },
@@ -172,7 +179,7 @@ export default function FormulaToolBox({ onInsertElement }) {
             ],
         },
         {
-            label: "\\text{Строчные греческие буквы}",
+            label: "{Строчные греческие буквы}",
             elements: [
                 { label: "\\alpha", code: "\\alpha " },
                 { label: "\\beta", code: "\\beta " },
@@ -206,72 +213,83 @@ export default function FormulaToolBox({ onInsertElement }) {
             ],
         },
         {
-            label: "\\text{Другие категории}",
-            elements: [
-                { label: "\\text{Математические знаки}", code: "\\text{Математические знаки}" },
-                { label: "\\text{Математическая логика}", code: "\\text{Математическая логика}" },
-                { label: "\\text{Знаки сравнения}", code: "\\text{Знаки сравнения}" },
-                { label: "\\text{Разное}", code: "\\text{Разное}" },
-                { label: "\\text{Стрелки}", code: "\\text{Стрелки}" },
-                { label: "\\text{Скобки}", code: "\\text{Скобки}" },
-                { label: "\\text{Прописные греческие буквы}", code: "\\text{Прописные греческие буквы}" },
-                { label: "\\text{Строчные греческие буквы}", code: "\\text{Строчные греческие буквы}" },
-            ],
-        },
-        {
-            label: "\\text{Кастомные элементы}",
+            label: "{Кастомные элементы}",
             elements: customElements,
         },
-        //Другие категории
     ];
 
     const [activeCategory, setActiveCategory] = useState(null);
+
     const handleInsertElement = (insertText) => {
         const textArea = document.querySelector("textarea");
-
         const updatedLatex = insertAtCursor(textArea, insertText);
-
         setLocalLatex(updatedLatex);
-        onFormulaChange(updatedLatex);        
+        onFormulaChange(updatedLatex);
+    };
 
-    }
     return (
         <MathJaxContext>
-        <aside className="p-2 m-4 bg-transparent rounded">
-            <h3 className="text-lg">Математические элементы</h3>
-            <ul className="mt-4 space-y-2">
-                {categories.map((category, index) => (
-                    <li key={index}>
+            <aside className="p-2 m-4 bg-transparent rounded font-mono">
+                <h3 className="text-lg">Математические элементы</h3>
+                <ul className="mt-4 space-y-2">
+                    {categories.map((category, index) => (
+                        <li key={index}>
+                            <button
+                                className="w-full px-3 text-lg text-left text-black bg-[#DBDCD0] rounded hover:bg-[#AEAF9C] font-mono"
+                                onClick={() =>
+                                    setActiveCategory(
+                                        activeCategory === index ? null : index
+                                    )
+                                }
+                            >
+                                <MathJax>{`${category.label}`}</MathJax>
+                            </button>
+                            {activeCategory === index && (
+                                <ul className="my-2 space-y-1 grid grid-cols-3 gap-1 text-center">
+                                    {category.elements.map((element, idx) => (
+                                        <li key={idx}>
+                                            <button
+                                                className="px-2 py-1 bg-transparent rounded hover:bg-gray-800"
+                                                onClick={() =>
+                                                    onInsertElement(element.code)
+                                                }
+                                            >
+                                                <MathJax>{`$$${element.label}$$`}</MathJax>
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </li>
+                    ))}
+                </ul>
+
+                <div className="mt-4 p-4 bg-transparent rounded">
+                    <h4 className="text-md mb-2">Добавить кастомный элемент</h4>
+                    <div className="flex flex-col gap-2 text-black">
+                        <input
+                            type="text"
+                            placeholder="Метка"
+                            className="p-2 border rounded"
+                            value={newElementLabel}
+                            onChange={(e) => setNewElementLabel(e.target.value)}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Код LaTeX"
+                            className="p-2 border rounded text-s text-black"
+                            value={ElementCode}
+                            onChange={(e) => setElementCode(e.target.value)}
+                        />
                         <button
-                            className="w-full px-3 py-2 text-left text-white bg-gray-700 rounded hover:bg-slate-400"
-                            onClick={() =>
-                                setActiveCategory(
-                                    activeCategory === index ? null : index
-                                )
-                            }
+                            className="py-2 bg-[#DBDCD0]  hover:bg-[#AEAF9C] rounded  text-black"
+                            onClick={AddCustomElement}
                         >
-                            <MathJax>{`$$${category.label}$$`}</MathJax>
+                            Добавить
                         </button>
-                        {activeCategory === index && (
-                            <ul className="my-2 space-y-1 grid grid-cols-3 gap-1 text-center ">
-                                {category.elements.map((element, idx) => (
-                                    <li key={idx}>
-                                        <button
-                                            className="text-xs px-2 py-1 bg-transparent rounded hover:bg-gray-300"
-                                            onClick={() =>
-                                                onInsertElement(element.code)
-                                            }
-                                        >
-                                            <MathJax> {`$$${element.label}$$`} </MathJax>
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </li>
-                ))}
-            </ul>
-        </aside>
+                    </div>
+                </div>
+            </aside>
         </MathJaxContext>
     );
 }
