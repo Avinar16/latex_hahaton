@@ -1,18 +1,12 @@
 from django import forms
 from .models import Formula
 
+from django import forms
 
-# class AddTaskForm(forms.Form):
-#
-#     class Meta:
-#         fields = ['category', 'spent', 'comment', 'report']
-#         widgets = {
-#             'spent': forms.NumberInput(attrs={'class': 'form__input', 'min': 1, 'max': 24}),
-#             'comment': forms.Textarea(attrs={'class': 'form__input'}),
-#             'report': forms.FileInput(attrs={'class': 'form__file'}),
-#         }
-#         labels = {
-#             'spent': 'Затраченное время',
-#             'comment': 'Комментарий (опционально)',
-#             'report': 'Отчёт (опционально)'
-#         }
+
+class FileUploadForm(forms.Form):
+    file = forms.FileField(
+        label="Выберите файл",
+        required=True,
+        widget=forms.FileInput(attrs={'class': 'form__file'})
+    )
