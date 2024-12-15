@@ -26,8 +26,8 @@ export default function Home() {
 
 
   return (
-    <div className = "min-h-screen flex-row grid pb-4">
-    <div className=" flex flex-col">
+    <div className = " flex-row grid pb-4">
+    <div className="  flex-col">
   
   <div className="flex flex-1 ">
     {/* сайд */}
@@ -35,7 +35,7 @@ export default function Home() {
       
     
    
-    <main className="flex-1 p-4 grid grid-cols-2 gap-4">
+    <main className=" flex-1 p-4 grid grid-cols-2 gap-4">
       {/* Редактор Формул */}
       <section className="p-4 rounded ">
         

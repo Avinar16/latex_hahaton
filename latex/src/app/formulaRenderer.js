@@ -1,22 +1,31 @@
+import { React, useState } from 'react';
 import { MathJax, MathJaxContext } from "better-react-mathjax";
 
-export default function formulaRenderer({latex}) {
+export default function formulaRenderer({ latex }) {
+  const [backendFormula, setBackendFormula] = useState("");
+  const [coincidence, setCoincidence] = useState("");
 
   const handleSubmit = () => {
-
     const payload = JSON.stringify({ formula: latex });
-    console.log('это отправляем на сервер:', payload);
+    console.log('отправляем на сервер:', payload);
+
     fetch('/api/analysis/', {
-     method: 'POST',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: payload, 
-      
+      body: payload,
     })
     .then(response => response.json())
     .then(data => {
-      console.log(data);
+      const RawFormula = data.formula;
+      const coincidenceValue = data.coincidence;
+
+      console.log('Полученная формула:', RawFormula);
+      console.log('Совпадение:', coincidenceValue);
+
+      setBackendFormula(RawFormula);
+      setCoincidence(coincidenceValue);
     })
     .catch(error => {
       console.error('Error:', error);
@@ -28,17 +37,25 @@ export default function formulaRenderer({latex}) {
         <MathJaxContext>
         <div>
         <h3>Рендеринг формулы:</h3>
-        <MathJax className = "border rounded min-h-[400]">{`\\[ ${latex} \\]`}</MathJax>
+        <MathJax className = "border rounded min-h-[300]">{`\\[ ${latex} \\]`}</MathJax>
         </div>
         <div>
-        <button className = "" onClick={handleSubmit}>Анализировать формулу</button>
+        <button className = "" onClick={handleSubmit}>Проанализировать формулу</button>
+        </div>
+        
+
+
+        <div>
+        <h3>Анализ формулы:</h3>
+        <div className = "border rounded min-h-[300]">        <MathJax
+        >{`\\[ ${backendFormula} \\]`}</MathJax>
+        </div>
+        <p >
+          {`Совпадение формулы : ${coincidence}`}
+        </p>
+
         </div>
         </MathJaxContext>
-
-
-      <MathJaxContext>
-        
-      </MathJaxContext>
       </div>
     );
   }
