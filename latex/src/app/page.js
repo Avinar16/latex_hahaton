@@ -49,9 +49,9 @@ export default function Home() {
       {/* Анализ Формул */}
       <section className=" p-4 font-[family-name:var(--font-geist-mono)] col-span-1">
         Анализ Формул
-        <div className = "border rounded p-4">
+        
         <FormulaRenderer latex={latex} />
-        </div>  
+          
       </section>
     </main>
   </div>
@@ -103,8 +103,6 @@ export default function Home() {
         </a>
       </footer>
 </div>
-
-      
     </div>
   
   );

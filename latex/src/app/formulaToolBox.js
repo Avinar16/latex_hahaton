@@ -2,6 +2,13 @@ import {useState, useEffect, useRef} from 'react';
 import { MathJax, MathJaxContext } from 'better-react-mathjax';
 
 export default function FormulaToolBox({ onInsertElement }) {
+    
+    const [customElements, setCustomElements] = useState([]);
+
+    const AddCustomElement = (newElement) => {
+        setCustomElements([...customElements, newElement]);
+    };
+
     const categories = [
         {
             label: "\\text{Математические знаки}",
@@ -197,6 +204,23 @@ export default function FormulaToolBox({ onInsertElement }) {
                 { label: "\\psi", code: "\\psi " },
                 { label: "\\omega", code: "\\omega " },
             ],
+        },
+        {
+            label: "\\text{Другие категории}",
+            elements: [
+                { label: "\\text{Математические знаки}", code: "\\text{Математические знаки}" },
+                { label: "\\text{Математическая логика}", code: "\\text{Математическая логика}" },
+                { label: "\\text{Знаки сравнения}", code: "\\text{Знаки сравнения}" },
+                { label: "\\text{Разное}", code: "\\text{Разное}" },
+                { label: "\\text{Стрелки}", code: "\\text{Стрелки}" },
+                { label: "\\text{Скобки}", code: "\\text{Скобки}" },
+                { label: "\\text{Прописные греческие буквы}", code: "\\text{Прописные греческие буквы}" },
+                { label: "\\text{Строчные греческие буквы}", code: "\\text{Строчные греческие буквы}" },
+            ],
+        },
+        {
+            label: "\\text{Кастомные элементы}",
+            elements: customElements,
         },
         //Другие категории
     ];
