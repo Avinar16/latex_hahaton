@@ -62,4 +62,6 @@ const FormulaEditor = forwardRef(({ latex, onFormulaChange, onInsert }, ref) => 
   );
 });
 
+FormulaEditor.displayName ="FormulaEditor";
+
 export default FormulaEditor;
