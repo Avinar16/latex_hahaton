@@ -45,10 +45,10 @@ const FormulaEditor = forwardRef(({ latex, onFormulaChange, onInsert }, ref) => 
 
   return (
     <MathJaxContext>
-      <div className="h-full w-full">
+      <div className=" ">
         <h2>Редактор формул</h2>
         <textarea
-          className="w-full h-full p-4 bg-transparent border border-gray-300 rounded resize-none focus:outline-none"
+          className="w-full min-h-[673] p-4 bg-transparent border border-gray-300 rounded resize-none focus:outline-none"
           value={localLatex}
           ref = {textAreaRef}
           onChange={handleInputChange}
